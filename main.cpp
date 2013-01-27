@@ -13,10 +13,12 @@ using namespace std;
 int main(int argc, const char * argv[])
 {
     try {
-        vector<string> patterns;
-        Lexer lexer(patterns);
+        Lexer lexer;
+        lexer.addPattern("[0-9A-Z]+");
         lexer.start("");
         cout << lexer.finish() << endl;
+    } catch (regex_error& ex) {
+        cerr << ex.what() << ": " << (ex.code() == regex_constants::error_brack) << endl;
     } catch (exception& ex) {
         cerr << ex.what() << endl;
     }

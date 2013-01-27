@@ -9,12 +9,19 @@
 
 #include <fstream>
 #include <iostream>
+#include <regex>
 #include <vector>
 
 #include "Exceptions.h"
 
+/* 
+ * struct token
+ * 
+ * A struct containing a token string and an int representing the type
+ * of the token.
+ */
 struct token {
-    int value;
+    int type;
     std::string core;
 };
 
@@ -23,20 +30,25 @@ public:
     
     /*
      * Constructor for Lexer.
-     * 
-     * patterns: A list of regular expressions where each regular expression 
-     *   matches a token. When scanning a file for tokens, Lexer looks for 
-     *   strings matching the patterns given. If a string matches more than 
-     *   one pattern, it is matched against the pattern that comes
-     *   first in the list.
      */
-    Lexer(std::vector<std::string> patterns);
+    Lexer();
     
     /* 
      * Destructor for Lexer.
      */
     ~Lexer();
 
+    /*
+     * Adds a pattern to the list of patterns. When scanning a file
+     * for tokens, this object looks for strings matching the given
+     * patterns. If a string matches more than one pattern, it is
+     * matched against the pattern that was added first.
+     * 
+     * Lexer supports POSIX extended regular expressions. If the given
+     * pattern is not a well-formed regular expression, throws a
+     * RegexExceptionDetail exception.
+     */
+    void addPattern(std::string pattern);
     
     /* 
      * Opens the specified file. If Lexer was already reading a file, closes
@@ -62,9 +74,10 @@ public:
     
 private:
     std::ifstream infile;
-    std::vector<std::string> patterns;
+    std::vector<std::regex> patterns;
     
 };
 
 
 #endif /* defined(__SysLang__Lexer__) */
+

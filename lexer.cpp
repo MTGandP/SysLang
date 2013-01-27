@@ -8,14 +8,21 @@
 
 using namespace std;
 
-Lexer::Lexer(vector<string> patterns)
-{
-    this->patterns = patterns;
-}
+Lexer::Lexer() {}
 
 Lexer::~Lexer() 
 {
     finish();
+}
+
+void Lexer::addPattern(string pattern)
+{
+    try {
+        regex r(pattern, regex::extended);
+        patterns.push_back(r);
+    } catch (regex_error& ex) {
+        throw RegexExceptionDetail(ex.code());
+    }
 }
 
 void Lexer::start(string filename) 
