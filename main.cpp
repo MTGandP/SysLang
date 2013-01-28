@@ -14,9 +14,11 @@ int main(int argc, const char * argv[])
 {
     try {
         Lexer lexer;
-        lexer.addPattern("[0-9A-Z]+");
-        lexer.start("");
-        cout << lexer.finish() << endl;
+        lexer.start("files/simple");
+        while (!lexer.empty()) {
+            cout << lexer.readToken() << endl;
+        }
+
     } catch (regex_error& ex) {
         cerr << ex.what() << ": " << (ex.code() == regex_constants::error_brack) << endl;
     } catch (exception& ex) {
