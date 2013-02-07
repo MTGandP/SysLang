@@ -12,20 +12,36 @@
 #include <cstdlib>
 #include <string>
 
+class Token;
+
 /* 
- * Defines the type of function used to read in a token. Takes a
- * buffer as input and returns a number indicating the length of the
- * token. Upon failure to find a token, returns 0.
+ * Defines the type for a function that attempts to read a token from
+ * the beginning of the buffer.
  * 
- * See Token::read() for specification on how tokens should be read.
+ * buffer: The input buffer from which to read a token.
+ * 
+ * return: Upon success, creates an instance of a Token subclass
+ *   representing a particular type of token. Upon failure, returns
+ *   NULL.
  */
-typedef size_t (* ReaderFun)(std::string);
+typedef Token *(* TokenReader)(std::string buffer);
 
 /* 
  * A Token object represents a token outputted by the Lexer. Clients
  * may define new types of tokens as subclasses of Token and then pass
  * them to a Lexer to use for lexical analysis.
  * 
+ * The client instantiates a subclass of Token to represent a
+ * particular type of token. Any subclass should implement all of the
+ * un-implemented methods in Token as well as the following.
+ * 
+ * read(string buffer): A function of type TokenReader that returns a
+ *   token of the subclass's type. Each subclass should have its own
+ *   read() function.
+ * Token(...): A constructor unique to this type of token that is
+ *   called by the client-created read() function.
+ * private: An internal representation that efficiently stores the
+ *   information that represents the token.
  */
 class Token {
 
@@ -37,28 +53,10 @@ public:
      */
     Token();
 
-    /*
-     * Constructor for Token. Takes a function that defines how this
-     * object should read tokens.
-     */
-    Token(ReaderFun reader);
-
     /* 
      * Destructor for Token.
      */
-    ~Token();
-
-    /* 
-     * Reads in a buffer where the beginning of the buffer may
-     * represent an instance of this token's type. This function 
-     * attempts to read in a token from the beginning of the
-     * buffer. Upon success, it stores the token within this object,
-     * possibly overwriting a previously-stored token. The token may
-     * be accessed using toString().
-     * 
-     * return: true on success, false on failure.
-     */
-    bool read(std::string buffer);
+    virtual ~Token() = 0;
 
     /* 
      * Returns true if the token was successfully read, false
@@ -69,24 +67,53 @@ public:
     /* 
      * Returns the number of characters read from the buffer to create
      * this token.
+     * 
+     * Subclasses are responsible for ensuring that this
+     * evaluates correctly. A subclass may set the internal variable
+     * representing length or may overwrite the implementation of this 
+     * method.
      */
-    size_t length() const;
+    virtual size_t length() const;
     
     /* 
      * Returns a string representation of the token.
+     * 
+     * By default, returns the private token string. Subclasses may
+     * use a different implementation.
      */
     virtual std::string toString() const;
 
-    static size_t wordTokenReader(std::string buffer);
-    static size_t spaceTokenReader(std::string buffer);
-    static size_t numberTokenReader(std::string buffer);
+protected:
 
-
-private:
-    ReaderFun reader;
+    /* 
+     * Stores the original token as it was read from a
+     * file. Subclasses are responsible for correctly setting this
+     * value in their constructors; failure to do so will result in
+     * undefined behavior.
+     */
     std::string token;
-    size_t privateLength;
+};
+
+class WordToken : Token {
+
+public: 
+    WordToken();
+    WordToken(std::string token);
+
+    static Token *reader(std::string buffer);
 
 };
 
+class SpaceToken : Token {
+
+public: 
+    SpaceToken();
+    SpaceToken(std::string token);
+   
+    static Token *reader(std::string buffer);
+
+};
+
+
 #endif /* ifndef __SysLang__token__ */
+

@@ -1,16 +1,49 @@
-Major Features
+Urgent
+ * Refactor Token so that Lexer holds an array of TokenReaders which
+ return Tokens, and the Token object is used just for storing tokens,
+ not reading them. Implement Token's subclasses.
+
+General
+ * Test that the lexer can read all forms of tokens.
+ * Search for TODOs in files.
+
+Simple
+ * Remove word and space from WordToken and SpaceToken. Simply use
+ Token::token instead.
+ * Add #ifndef tags to all .h files
+ * Change names of #ifndef tags to format __SysLang__filename__
+ * In token.c, throw an exception if the zero-arg constructor is called
+ * Change Token to TokenType
+
+Bugs
+No known bugs.
+
+ *** Implementation ***
+
+Compiler
  - Lexer
  - Parser
  - Basic code generator
  - Linker
 
-General
- * Search for TODOs in files.
 
-Simple
- * Add #ifndef tags to all .h files
- * Change names of #ifndef tags to format __SysLang__filename__
- * In Token.c, throw an exception if the zero-arg constructor is called.
+Language Features
+ * main()
+ * Operators
+ * Variables
+ * Function calls
+ * Function definitions
+ * Control flow
+ * New data types
+ * Operator overloading
+ * File imports
+ * Exceptions
 
-Bugs
-No known bugs.
+Tools
+ * Debugger
+ * Valgrind support
+
+Libraries
+ * Data structures: array, list, map
+
+

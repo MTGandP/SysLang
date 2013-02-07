@@ -10,21 +10,20 @@ using namespace std;
 
 Lexer::Lexer() {
     isBufferEmpty = true;
-    addTokenType(new Token(Token::wordTokenReader));
-    addTokenType(new Token(Token::spaceTokenReader));
-    addTokenType(new Token(Token::numberTokenReader));
+    addReader(WordToken::reader);
+    addReader(SpaceToken::reader);
 }
 
 Lexer::~Lexer() {}
 
 void Lexer::clearTokenTypes()
 {
-    tokenTypes.clear();
+    readers.clear();
 }
 
-void Lexer::addTokenType(Token *type)
+void Lexer::addReader(TokenReader reader)
 {
-    tokenTypes.push_back(type);
+    readers.push_back(reader);
 }
 
 bool Lexer::empty()
@@ -45,16 +44,18 @@ void Lexer::start(string filename)
     pos = 0;
 }
 
-string Lexer::readToken() 
+Token *Lexer::readToken() 
 {
-    for (vector<Token>::size_type i = 0; i < tokenTypes.size(); ++i) {        
-        if (tokenTypes[i]->read(buffer.substr(pos))) {
-            pos += tokenTypes[i]->length();
-            return tokenTypes[i]->toString();
+    Token *token;
+    for (vector<TokenReader>::size_type i = 0; 
+         i < readers.size(); ++i) {        
+        if ((token = (*readers[i])(buffer.substr(pos)))) {
+            pos += token->length();
+            return token;
         }
     }
-
+    
     isBufferEmpty = true;
-    return "failed to find token";
+    return NULL;
 }
 

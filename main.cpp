@@ -14,9 +14,12 @@ int main(int argc, const char * argv[])
 {
     try {
         Lexer lexer;
+        Token *token = NULL;
         lexer.start("files/simple");
-        while (!lexer.empty()) {
-            cout << lexer.readToken() << endl;
+        while (true) {
+            token = lexer.readToken();
+            if (token == NULL) break;
+            cout << token->toString() << endl;
         }
 
     } catch (regex_error& ex) {

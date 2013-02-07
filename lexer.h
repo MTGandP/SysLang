@@ -31,19 +31,12 @@ public:
     ~Lexer();
 
     /* 
-     * Defines a new type of token. When reading buffer to find tokens,
-     * this object uses token types defined here to find matches.
-     * If a string can match multiple token types, it is matched
-     * against whichever was defined first.
-     * 
-     * type: An instance of a token type. The object passed in should
-     *   not be used for anything else.
-     * 
-     * Usage
-     * // lexer is an instantiation of Lexer
-     * lexer->add(new WordToken());
+     * Defines a new token reader used to lexically analyze the
+     * buffer. Checks the buffer for matches against the readers
+     * passed in to this method. If a string matches multiple readers,
+     * it is matched against whichever reader was passed in first.
      */
-    void addTokenType(Token *type);
+    void addReader(TokenReader reader);
 
     /* 
      * Clears the list of token types.
@@ -64,16 +57,22 @@ public:
     void start(std::string filename);
         
     /* 
-     * Returns the next token in the buffer.
+     * Returns the next token in the buffer. If no more tokens can be
+     * read, returns NULL.
      */
-    std::string readToken();
+    Token *readToken();
 
     
 private:
     std::string buffer;
+
+    /* The first position in the buffer that has not been read. */
     size_t pos;
+
     bool isBufferEmpty;
-    std::vector<Token *> tokenTypes;
+
+    /* A list of TokenReaders used to lexically analyze the buffer. */
+    std::vector<TokenReader> readers;
     
 };
 

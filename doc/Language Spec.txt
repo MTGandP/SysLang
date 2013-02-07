@@ -1,24 +1,17 @@
 Name: ???
 
- *** Implementation Plan ***
-
- * main()
- * Variables
- * Operators
- * Function calls
- * Function definitions
- * Control flow
- * New data types
- * Operator overloading
- * File imports
- * Exceptions
-
  *** Built-in Types ***
 
 Integer types: i1 through i[(1<<23)-1]
 Floating types: float, double
 
-Typedefs
+Defined Types
+
+numeric: abstract
+real < numeric: abstract
+integral < real: abstract
+
+Subtypes of integral
 byte: exactly 8 bits
 short: exactly 16 bits
 int: at least 32 bits

@@ -16,37 +16,19 @@ using namespace std;
 
 Token::Token()
 {
-    privateLength = 0;
-}
-
-Token::Token(ReaderFun reader)
-{
-    this->reader = reader;
-    privateLength = 0;
+    token = "";
 }
 
 Token::~Token() {}
 
-bool Token::read(string buffer)
-{
-    size_t index = (*reader)(buffer);
-    if (index > 0) {
-        privateLength = index;
-        token = buffer.substr(0, index);
-        return true;
-    }
-    
-    return false;
-}
-
 bool Token::good() const
 {
-    return privateLength != 0;
+    return !token.empty();
 }
 
 size_t Token::length() const
 {
-    return privateLength;
+    return token.length();
 }
 
 string Token::toString() const
@@ -60,39 +42,87 @@ string Token::toString() const
  *
  */
 
-size_t Token::wordTokenReader(string buffer)
+Token *WordToken::reader(string buffer)
 {
     if (isalpha(buffer[0])) {
         size_t i;
-        for (i = 1; i < buffer.length() && isalnum(buffer[i]); ++i) {}
-        return i;
+        for (i = 1; i < buffer.length() && isalnum(buffer[i]); i++) {}
+        return new WordToken(buffer.substr(0, i));
     }
 
-    return 0;
+    return NULL;
 }
 
+WordToken::WordToken() {}
 
-size_t Token::spaceTokenReader(string buffer)
+WordToken::WordToken(string token)
+{
+    this->token = token;
+}
+
+/* 
+ *
+ * Method definitions for SpaceToken.
+ *
+ */
+
+Token *SpaceToken::reader(string buffer)
 {
     size_t i = 0;
-    for (; i < buffer.length() && isspace(buffer[i]); ++i) {}
-    return i;
-    
+    for (; i < buffer.length() && isspace(buffer[i]); i++) {}
+    if (i > 0) return new SpaceToken(buffer.substr(0, i));
+    return NULL;
 }
 
-size_t Token::numberTokenReader(string buffer)
+SpaceToken::SpaceToken() {}
+
+SpaceToken::SpaceToken(string token)
+{
+    this->token = token;
+}
+
+/* 
+ *
+ * Method definitions for NumberToken.
+ *
+ */
+
+
+// TODO: have some way to exit in case of a false positive
+// TODO: put this in NumberToken
+Token *reader(string buffer)
 {
     size_t i = 0;
 
     // unary +/-
     if (i < buffer.length() && (buffer[i] == '-' || buffer[i] == '+'))
-        ++i;
+        i++;
+
+    // base
+    if (buffer[i] == '0') {
+        i++;
+        if (buffer[i] == 'b' || buffer[i] == 'x' || buffer[i] == 'o')
+            i++;
+    }
 
     // integral digits
-    for (; i < buffer.length() && isdigit(buffer[i]); ++i) {}
+    for (; i < buffer.length() && isdigit(buffer[i]); i++) {}
 
     // decimal point
-    // TODO: finish this
+    if (buffer[i] == '.') i++;
 
-    return i;
+    // decimal digits
+    for (; i < buffer.length() && isdigit(buffer[i]); i++) {}
+
+    // exponent
+    if (buffer[i] == 'e' || buffer[i] == 'E') i++;
+
+    // exponent digits
+    for (; i < buffer.length() && isdigit(buffer[i]); i++) {}
+
+    return NULL;
 }
+
+
+
+
