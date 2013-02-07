@@ -14,9 +14,9 @@ using namespace std;
  *
  */
 
-Token::Token()
+Token::Token(string token)
 {
-    token = "";
+    this->token = token;
 }
 
 Token::~Token() {}
@@ -53,12 +53,7 @@ Token *WordToken::reader(string buffer)
     return NULL;
 }
 
-WordToken::WordToken() {}
-
-WordToken::WordToken(string token)
-{
-    this->token = token;
-}
+WordToken::WordToken(string token) : Token(token) {}
 
 /* 
  *
@@ -74,12 +69,7 @@ Token *SpaceToken::reader(string buffer)
     return NULL;
 }
 
-SpaceToken::SpaceToken() {}
-
-SpaceToken::SpaceToken(string token)
-{
-    this->token = token;
-}
+SpaceToken::SpaceToken(string token) : Token(token) {}
 
 /* 
  *

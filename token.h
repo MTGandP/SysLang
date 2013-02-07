@@ -48,10 +48,10 @@ class Token {
 public:
 
     /* 
-     * Initializes an empty token. Should not be used.
-     * TODO: Throw an exception when this is called.
+     * Default constructor for Token. Reads in a token as a string and
+     * stores it internally.
      */
-    Token();
+    Token(std::string token);
 
     /* 
      * Destructor for Token.
@@ -97,7 +97,6 @@ protected:
 class WordToken : Token {
 
 public: 
-    WordToken();
     WordToken(std::string token);
 
     static Token *reader(std::string buffer);
@@ -107,7 +106,6 @@ public:
 class SpaceToken : Token {
 
 public: 
-    SpaceToken();
     SpaceToken(std::string token);
    
     static Token *reader(std::string buffer);

@@ -22,8 +22,6 @@ int main(int argc, const char * argv[])
             cout << token->toString() << endl;
         }
 
-    } catch (regex_error& ex) {
-        cerr << ex.what() << ": " << (ex.code() == regex_constants::error_brack) << endl;
     } catch (exception& ex) {
         cerr << ex.what() << endl;
     }
