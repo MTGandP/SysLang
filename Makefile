@@ -6,7 +6,7 @@
 
 flags = -Wall -std=gnu++11
 
-sources = main.cpp exceptions.cpp lexer.cpp parser.cpp
+sources = main.cpp exceptions.cpp token.cpp lexer.cpp parser.cpp
 
 all : $(sources)
 	g++ $(sources) $(flags) -O0 -g

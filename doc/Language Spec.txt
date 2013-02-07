@@ -1,0 +1,62 @@
+Name: ???
+
+ *** Implementation Plan ***
+
+ * main()
+ * Variables
+ * Operators
+ * Function calls
+ * Function definitions
+ * Control flow
+ * New data types
+ * Operator overloading
+ * File imports
+ * Exceptions
+
+ *** Built-in Types ***
+
+Integer types: i1 through i[(1<<23)-1]
+Floating types: float, double
+
+Typedefs
+byte: exactly 8 bits
+short: exactly 16 bits
+int: at least 32 bits
+long: at least 64 bits
+size_t: unsigned; size of a word on the current machine
+
+char: character; 8 bits
+wchar: wide character; 16 bits
+
+ *** Operators ***
+
+Same as C.
+
+ *** Functions ***
+
+Functions are defined using the following syntax: 
+
+	def myFunction: returnType => (type1 var1, type2 var2) {
+		// body
+	}
+
+Anonymous functions may be defined similarly: 
+
+	// fun is declared as type (int => int). Notice that if a function only 
+	// takes one argument, you may leave off the parentheses.
+	def callAFunction: int => ((int => int) fun, int x) {
+		// Functions are called using an arrow ->.
+		return fun->(x);
+	}
+	
+	def main(): int => () {
+		// Defines an anonymous function that takes a single input and 
+		// multiplies it by 2. Then passes this function and the number 3 
+		// into callAFunction().
+		y = callAFunction(int => (int x) { return 2 * x; }, 3);
+		
+		return 0;
+	}
+	
+	
+	

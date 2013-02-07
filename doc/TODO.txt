@@ -1,0 +1,16 @@
+Major Features
+ - Lexer
+ - Parser
+ - Basic code generator
+ - Linker
+
+General
+ * Search for TODOs in files.
+
+Simple
+ * Add #ifndef tags to all .h files
+ * Change names of #ifndef tags to format __SysLang__filename__
+ * In Token.c, throw an exception if the zero-arg constructor is called.
+
+Bugs
+No known bugs.
