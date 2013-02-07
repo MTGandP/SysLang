@@ -31,6 +31,13 @@ bool Lexer::empty()
     return isBufferEmpty || pos >= buffer.length();
 }
 
+void Lexer::setBuffer(string buffer)
+{
+    this->buffer = buffer;
+    isBufferEmpty = buffer.empty();
+    pos = 0;
+}
+
 void Lexer::start(string filename) 
 {
     ifstream infile;
@@ -39,9 +46,7 @@ void Lexer::start(string filename)
 
     string str((istreambuf_iterator<char>(infile)), 
                istreambuf_iterator<char>());
-    buffer = str;
-    isBufferEmpty = buffer.empty();
-    pos = 0;
+    setBuffer(str);
 }
 
 Token *Lexer::readToken() 

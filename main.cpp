@@ -15,12 +15,15 @@ int main(int argc, const char * argv[])
     try {
         Lexer lexer;
         Token *token = NULL;
-        lexer.start("files/simple");
+//        lexer.start("files/simple");
+        lexer.setBuffer("testing one two three");
         while (true) {
             token = lexer.readToken();
             if (token == NULL) break;
-            cout << token->toString() << endl;
+            cout << token->toString();
+            delete token;
         }
+        cout << endl;
 
     } catch (exception& ex) {
         cerr << ex.what() << endl;

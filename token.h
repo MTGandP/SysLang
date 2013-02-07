@@ -11,6 +11,8 @@
 
 #include <cstdlib>
 #include <string>
+#include <regex>
+#include "exceptions.h"
 
 class Token;
 
@@ -94,6 +96,10 @@ protected:
     std::string token;
 };
 
+
+/* 
+ * WordToken: Holds a word as defined by [a-zA-Z][a-zA-Z0-9]*
+ */
 class WordToken : Token {
 
 public: 
@@ -103,6 +109,9 @@ public:
 
 };
 
+/* 
+ * SpaceToken: Holds whitespace.
+ */
 class SpaceToken : Token {
 
 public: 

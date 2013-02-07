@@ -55,6 +55,7 @@ Token *WordToken::reader(string buffer)
 
 WordToken::WordToken(string token) : Token(token) {}
 
+
 /* 
  *
  * Method definitions for SpaceToken.
@@ -71,12 +72,12 @@ Token *SpaceToken::reader(string buffer)
 
 SpaceToken::SpaceToken(string token) : Token(token) {}
 
+
 /* 
  *
  * Method definitions for NumberToken.
  *
  */
-
 
 // TODO: have some way to exit in case of a false positive
 // TODO: put this in NumberToken

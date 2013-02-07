@@ -48,6 +48,12 @@ public:
     bool empty();
     
     /* 
+     * Sets this object's buffer to the given buffer. If this object
+     * was already reading data, its buffer is overwritten.
+     */
+    void setBuffer(std::string buffer);
+
+    /* 
      * Opens the specified file and reads in its data. If this object
      * was already reading data, its buffer is overwritten.
      * 

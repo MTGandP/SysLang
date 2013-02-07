@@ -6,6 +6,7 @@ Urgent
 General
  * Test that the lexer can read all forms of tokens.
  * Search for TODOs in files.
+ * Test under Valgrind.
 
 Simple
  * Remove word and space from WordToken and SpaceToken. Simply use
@@ -37,6 +38,7 @@ Language Features
  * New data types
  * Operator overloading
  * File imports
+ * Integration with C
  * Exceptions
 
 Tools
@@ -44,6 +46,6 @@ Tools
  * Valgrind support
 
 Libraries
- * Data structures: array, list, map
+ * Data structures: string, Array, List, Map
 
 
