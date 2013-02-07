@@ -1,0 +1,7 @@
+SysLang
+
+This is a compiler for a C-like systems-level programming language. My
+goal is to develop a language similar to C that changes some of the
+features I don't like about C.
+
+Tentatively called "SysLang" until I come up with a better name.
